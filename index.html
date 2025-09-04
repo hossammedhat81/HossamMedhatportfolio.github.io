@@ -83,15 +83,12 @@
 				font-weight: 600;
 			}
 			
-			/* Contact card (adjusted for dark background) */
 			.contact-info-custom {
-				/* darker translucent card to sit on the dark contact column */
-				background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+				background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
 				padding: 2.5rem;
 				border-radius: 12px;
 				margin-bottom: 2rem;
-				backdrop-filter: blur(6px);
-				border: 1px solid rgba(255,255,255,0.04);
+				backdrop-filter: blur(10px);
 			}
 			
 			.contact-info-custom h3 {
@@ -316,6 +313,105 @@
 			/* for the split layout ensure divider stands out slightly on dark BG */
 			footer#footer .split.contact {
 				border-left: 1px solid rgba(255,255,255,0.03);
+			}
+
+			/* === Dark theme: portfolio / #main area ===
+			   Inserted to make the portfolio/main area dark like your site */
+			#main {
+			  background: linear-gradient(180deg, #14171a 0%, #1f2428 100%);
+			  color: rgba(255,255,255,0.95);
+			  padding: 4rem 0;
+			}
+
+			/* Stats */
+			.stats-grid .stat-item {
+			  background: rgba(255,255,255,0.03);
+			  border: 1px solid rgba(255,255,255,0.03);
+			}
+
+			/* Featured post and posts list */
+			.post,
+			.posts article,
+			.post.featured {
+			  background: transparent;
+			  color: inherit;
+			  border: none;
+			}
+
+			/* Make posts stand out slightly on the dark background */
+			.posts article {
+			  padding: 1.2rem;
+			  border-radius: 10px;
+			  border: 1px solid rgba(255,255,255,0.03);
+			  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+			}
+
+			/* Headings / metadata */
+			.post.featured .major .date,
+			.posts article header .date {
+			  color: rgba(255,255,255,0.65);
+			}
+
+			.post.featured header h2 a,
+			.posts article header h2 a {
+			  color: #ffffff;
+			  text-decoration: none;
+			}
+
+			/* Images */
+			.image.main img,
+			.image.fit img {
+			  border-radius: 8px;
+			  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+			  filter: saturate(0.98) contrast(0.98);
+			}
+
+			/* Project tech tags */
+			.project-tech .tech-tag {
+			  background: rgba(255,255,255,0.06);
+			  color: rgba(255,255,255,0.95);
+			  border: 1px solid rgba(255,255,255,0.04);
+			}
+
+			/* Buttons (actions) - darker / high contrast */
+			.actions .button,
+			.actions .button.large {
+			  background: linear-gradient(45deg, #3a4248 0%, #252a2e 100%);
+			  color: #ffffff;
+			  border: 1px solid rgba(255,255,255,0.06);
+			  transition: transform .18s ease, box-shadow .18s ease;
+			}
+
+			.actions .button:hover,
+			.actions .button.large:hover {
+			  transform: translateY(-3px);
+			  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+			  background: linear-gradient(45deg, #566376 0%, #34383c 100%);
+			}
+
+			/* Links */
+			#main a,
+			#main a:visited {
+			  color: #9fb6ff;
+			}
+			#main a:hover {
+			  color: #dbe9ff;
+			}
+
+			/* Ensure featured project spacing */
+			.post.featured .image.main { margin-top: 1rem; }
+
+			/* Make text in project descriptions slightly lighter for readability */
+			.posts article p,
+			.post.featured header p {
+			  color: rgba(255,255,255,0.9);
+			  line-height: 1.6;
+			}
+
+			/* Small responsive tweaks */
+			@media (max-width: 980px) {
+			  #main { padding: 2rem 0; }
+			  .post.featured, .posts article { padding: 1rem; }
 			}
 		</style>
 	</head>
