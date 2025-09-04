@@ -1,139 +1,122 @@
-<!DOCTYPE HTML>
-<!--
-	Personal portfolio for Hossam Medhat
--->
-<html>
-	<head>
-		<title>Hossam Medhat — Data Science Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<!-- Personal portfolio for Hossam Medhat - simplified styled version to ensure GitHub Pages displays correctly -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hossam Medhat — Data Science Portfolio</title>
+  <style>
+    /* Minimal CSS to restore layout and appearance without external assets */
+    :root{--bg:#0f1720;--panel:#111216;--accent:#6d5df6;--muted:#9aa3b2;--text:#e6eef6}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#081018 0%, #0f1720 100%);color:var(--text)}
+    a{color:var(--accent);text-decoration:none}
+    #wrapper{max-width:1100px;margin:40px auto;padding:24px}
+    header#header{display:flex;align-items:center;gap:16px}
+    .logo{font-weight:700;font-size:28px;color:var(--text)}
+    #intro{background:linear-gradient(90deg, rgba(109,93,246,0.12), rgba(109,93,246,0.03));padding:18px;border-radius:10px;margin-bottom:18px}
+    #intro h1{margin:0 0 6px 0;color:var(--text)}
+    #intro p{margin:0;color:var(--muted);line-height:1.45}
+    nav#nav{display:flex;justify-content:space-between;align-items:center;margin:18px 0}
+    nav#nav .links{list-style:none;padding:0;margin:0;display:flex;gap:12px}
+    nav#nav .links a{padding:6px 10px;border-radius:6px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+    nav#nav .links .active a{background:rgba(255,255,255,0.03);color:var(--text)}
+    .posts{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+    article.post{background:linear-gradient(180deg,#0b1220 0%, #0f1724 100%);border-radius:10px;padding:18px;border:1px solid rgba(255,255,255,0.03)}
+    article.post h2{margin:0 0 8px 0;color:var(--accent)}
+    .image.fit img{max-width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
+    .contact{display:flex;gap:20px;margin-top:18px}
+    .contact section{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;flex:1}
+    footer#footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
+    @media(min-width:900px){.posts{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <header id="header">
+      <a class="logo" href="index.html">Hossam Medhat</a>
+    </header>
 
-		<!-- Wrapper -->
-		<div id="wrapper" class="fade-in">
+    <section id="intro">
+      <h1>Hossam Medhat</h1>
+      <p>Data Science Senior Student with proven expertise in machine learning implementation and statistical modeling. Demonstrated success through competition wins and hands-on projects involving customer segmentation and predictive analytics. Proficient in Python, SQL, and advanced data visualization techniques. <a href="https://www.linkedin.com/in/hossammed7at/">LinkedIn</a></p>
+    </section>
 
-			<!-- Intro -->
-			<div id="intro">
-				<h1>Hossam Medhat<br /></h1>
-				<p>Data Science Senior Student with proven expertise in machine learning implementation and statistical modeling. Demonstrated success through competition wins and hands-on projects involving customer segmentation and predictive analytics. Proficient in Python, SQL, and advanced data visualization techniques. <a href="https://www.linkedin.com/in/hossammed7at/">LinkedIn</a></p>
-				<ul class="actions">
-					<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-				</ul>
-			</div>
+    <nav id="nav">
+      <ul class="links">
+        <li class="active"><a href="index.html">Projects</a></li>
+        <li><a href="generic.html">About</a></li>
+      </ul>
+      <ul class="icons" style="list-style:none;display:flex;gap:8px;margin:0;padding:0">
+        <li><a href="https://www.linkedin.com/in/hossammed7at/">linkedin</a></li>
+        <li><a href="https://github.com/hossammedhat81">GitHub</a></li>
+      </ul>
+    </nav>
 
-			<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="logo">Hossam Medhat</a>
-			</header>
+    <main id="main">
+      <article class="post featured">
+        <header class="major">
+          <h2><a href="https://github.com/hossammedhat81/Expresso-Churn-Prediction-System">Expresso — Churn Prediction System</a></h2>
+          <p style="color:var(--muted);margin-top:6px">AI-powered customer churn prediction system. Pipeline includes preprocessing, feature engineering, and ensemble modeling (XGBoost/LightGBM/CatBoost).</p>
+        </header>
+        <div class="image main" style="margin-top:12px">
+          <img src="images/expresso.png" alt="Expresso Churn Predictor screenshot">
+        </div>
+        <div style="margin-top:12px">
+          <a class="button" href="https://github.com/hossammedhat81/Expresso-Churn-Prediction-System" style="display:inline-block;padding:8px 12px;border-radius:8px;background:var(--accent);color:white">View Project</a>
+        </div>
+      </article>
 
-			<!-- Nav -->
-			<nav id="nav">
-				<ul class="links">
-					<li class="active"><a href="index.html">Projects</a></li>
-					<li><a href="generic.html">About</a></li>
-				</ul>
-				<ul class="icons">
-					<li><a href="https://www.linkedin.com/in/hossammed7at/" class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
-					<li><a href="https://github.com/hossammedhat81" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-				</ul>
-			</nav>
+      <section class="posts">
+        <article>
+          <header>
+            <h2><a href="https://github.com/hossammedhat81/simple-credit-card-clustering">Credit Card Clustering</a></h2>
+          </header>
+          <a class="image fit" href="https://github.com/hossammedhat81/simple-credit-card-clustering"><img src="images/credit_clustering.png" alt="Credit card clustering visualization"></a>
+          <p style="color:var(--muted)">Customer segmentation using clustering techniques to discover actionable user groups and patterns for targeted offers.</p>
+          <p><a href="https://github.com/hossammedhat81/simple-credit-card-clustering">View Project →</a></p>
+        </article>
 
-			<!-- Main -->
-			<div id="main">
+        <article>
+          <header>
+            <h2><a href="https://github.com/hossammedhat81/Housing_Price_Prediction">Housing Price Prediction</a></h2>
+          </header>
+          <a class="image fit" href="https://github.com/hossammedhat81/Housing_Price_Prediction"><img src="images/housing_prediction.png" alt="Housing price prediction charts"></a>
+          <p style="color:var(--muted)">Regression modeling and feature engineering for price prediction with model evaluation and distribution comparison plots.</p>
+          <p><a href="https://github.com/hossammedhat81/Housing_Price_Prediction">View Project →</a></p>
+        </article>
 
-				<!-- Featured Project -->
-				<article class="post featured">
-					<header class="major">
-						<h2><a href="https://github.com/hossammedhat81/Expresso-Churn-Prediction-System">Expresso — Churn Prediction System</a></h2>
-						<p>AI-powered customer churn prediction system. Pipeline includes preprocessing, feature engineering, and ensemble modeling (XGBoost/LightGBM/CatBoost).</p>
-					</header>
-					<a href="https://github.com/hossammedhat81/Expresso-Churn-Prediction-System" class="image main"><img src="images/expresso.png" alt="Expresso Churn Predictor screenshot" /></a>
-					<ul class="actions special">
-						<li><a href="https://github.com/hossammedhat81/Expresso-Churn-Prediction-System" class="button large">View Project</a></li>
-					</ul>
-				</article>
+        <article>
+          <header>
+            <h2><a href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset">Netflix Dataset Analysis</a></h2>
+          </header>
+          <a class="image fit" href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset"><img src="images/netflix_analysis.png" alt="Netflix analysis charts"></a>
+          <p style="color:var(--muted)">Exploratory data analysis and visualization on the Netflix dataset highlighting top genres, release trends and content breakdowns.</p>
+          <p><a href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset">View Project →</a></p>
+        </article>
+      </section>
 
-				<!-- Posts -->
-				<section class="posts">
-					<article>
-						<header>
-							<h2><a href="https://github.com/hossammedhat81/simple-credit-card-clustering">Credit Card Clustering</a></h2>
-						</header>
-						<a href="https://github.com/hossammedhat81/simple-credit-card-clustering" class="image fit"><img src="images/credit_clustering.png" alt="Credit card clustering visualization" /></a>
-						<p>Customer segmentation using clustering techniques to discover actionable user groups and patterns for targeted offers.</p>
-						<ul class="actions special">
-							<li><a href="https://github.com/hossammedhat81/simple-credit-card-clustering" class="button">View Project</a></li>
-						</ul>
-					</article>
+      <section class="split contact" style="margin-top:18px">
+        <section class="alt">
+          <h3>Location</h3>
+          <p>Based in Egypt</p>
+        </section>
+        <section>
+          <h3>Phone</h3>
+          <p><a href="tel:+201028154159">+20 102 815 4159</a><br><a href="tel:+201109009674">+20 110 900 9674</a></p>
+        </section>
+        <section>
+          <h3>Email</h3>
+          <p><a href="mailto:hossammedhat81@gmail.com">hossammedhat81@gmail.com</a></p>
+        </section>
+      </section>
 
-					<article>
-						<header>
-							<h2><a href="https://github.com/hossammedhat81/Housing_Price_Prediction">Housing Price Prediction</a></h2>
-						</header>
-						<a href="https://github.com/hossammedhat81/Housing_Price_Prediction" class="image fit"><img src="images/housing_prediction.png" alt="Housing price prediction charts" /></a>
-						<p>Regression modeling and feature engineering for price prediction with model evaluation and distribution comparison plots.</p>
-						<ul class="actions special">
-							<li><a href="https://github.com/hossammedhat81/Housing_Price_Prediction" class="button">View Project</a></li>
-						</ul>
-					</article>
+    </main>
 
-					<article>
-						<header>
-							<h2><a href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset">Netflix Dataset Analysis</a></h2>
-						</header>
-						<a href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset" class="image fit"><img src="images/netflix_analysis.png" alt="Netflix analysis charts" /></a>
-						<p>Exploratory data analysis and visualization on the Netflix dataset highlighting top genres, release trends and content breakdowns.</p>
-						<ul class="actions special">
-							<li><a href="https://github.com/hossammedhat81/Analysis_Netflix-Dataset" class="button">View Project</a></li>
-						</ul>
-					</article>
-				</section>
-
-				<!-- Contact -->
-				<section class="split contact">
-					<section class="alt">
-						<h3>Location</h3>
-						<p>Based in Egypt</p>
-					</section>
-					<section>
-						<h3>Phone</h3>
-						<p><a href="tel:+201028154159">+20 102 815 4159</a><br/><a href="tel:+201109009674">+20 110 900 9674</a></p>
-					</section>
-					<section>
-						<h3>Email</h3>
-						<p><a href="mailto:hossammedhat81@gmail.com">hossammedhat81@gmail.com</a></p>
-					</section>
-					<section>
-						<h3>Social</h3>
-						<ul class="icons alt">
-							<li><a href="https://www.linkedin.com/in/hossammed7at/" class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
-							<li><a href="https://github.com/hossammedhat81" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</section>
-				</section>
-
-			</div>
-
-			<!-- Footer -->
-			<footer id="footer">
-				<div id="copyright">
-					<ul><li>&copy; Hossam Medhat</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-				</div>
-			</footer>
-
-		</div>
-
-		<!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.scrollex.min.js"></script>
-		<script src="assets/js/jquery.scrolly.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
-
-	</body>
+    <footer id="footer">
+      <div id="copyright">
+        <p>&copy; Hossam Medhat — Design: HTML5 UP</p>
+      </div>
+    </footer>
+  </div>
+</body>
 </html>
