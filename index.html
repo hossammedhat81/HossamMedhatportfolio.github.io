@@ -1,3 +1,6 @@
+I updated the contact area so the right-side contact panel uses a dark background and ensured text/icons remain readable. I changed the styles inside the existing <style> block: I darkened the overall contact section (#contact), adjusted .contact-info-custom to a subtle darker card tone, and made the contact text/links/icons use high-contrast white. Paste this file into your project (replacing the previous index.txt) and reload — the contact column should now appear with a dark background matching the rest of your site's palette. If you want a different dark tone or stronger contrast for the dividing border, tell me which hex you prefer and I’ll tweak it.
+
+```name=index.txt
 <!DOCTYPE HTML>
 <!--
 	Massively by HTML5 UP
@@ -83,12 +86,15 @@
 				font-weight: 600;
 			}
 			
+			/* Contact card (adjusted for dark background) */
 			.contact-info-custom {
-				background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+				/* darker translucent card to sit on the dark contact column */
+				background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
 				padding: 2.5rem;
 				border-radius: 12px;
 				margin-bottom: 2rem;
-				backdrop-filter: blur(10px);
+				backdrop-filter: blur(6px);
+				border: 1px solid rgba(255,255,255,0.04);
 			}
 			
 			.contact-info-custom h3 {
@@ -276,6 +282,43 @@
 					width: 160px;
 					height: 160px;
 				}
+			}
+
+			/* Darken the contact column and ensure readable text/icons */
+			#contact {
+				/* dark gradient for the right column */
+				background: linear-gradient(135deg, #14171a 0%, #1f2428 100%);
+				color: rgba(255,255,255,0.95);
+				padding: 3rem;
+			}
+
+			/* ensure inner items display nicely on dark background */
+			#contact h3, #contact h1, #contact h4, #contact p, #contact span, #contact a {
+				color: rgba(255,255,255,0.95);
+			}
+
+			#contact .icons.alt li a {
+				color: rgba(255,255,255,0.95);
+				opacity: 0.95;
+			}
+
+			#contact .icons.alt li a:hover {
+				opacity: 1;
+			}
+
+			/* slightly brighten the contact card edges for contrast */
+			#contact .contact-info-custom {
+				border: 1px solid rgba(255,255,255,0.04);
+			}
+
+			/* keep the footer's small text readable */
+			#contact p, #contact .contact-item span {
+				color: rgba(255,255,255,0.9);
+			}
+
+			/* for the split layout ensure divider stands out slightly on dark BG */
+			footer#footer .split.contact {
+				border-left: 1px solid rgba(255,255,255,0.03);
 			}
 		</style>
 	</head>
@@ -762,3 +805,4 @@
 
 	</body>
 </html>
+```
