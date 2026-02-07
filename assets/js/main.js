@@ -275,6 +275,7 @@ const galleryData = {
 
 let currentGallery = [];
 let currentImageIndex = 0;
+let savedScrollY = 0;
 
 function openGallery(achievementId) {
   const modal = document.getElementById("galleryModal");
@@ -299,14 +300,22 @@ function openGallery(achievementId) {
   // Scroll container to start position
   container.scrollLeft = 0;
 
+  // Lock body scroll — save position, apply class
+  savedScrollY = window.scrollY;
+  document.body.style.top = "-" + savedScrollY + "px";
+  document.body.classList.add("modal-open");
+
   modal.classList.add("active");
-  document.body.style.overflow = "hidden";
 }
 
 function closeGallery() {
   const modal = document.getElementById("galleryModal");
   modal.classList.remove("active");
-  document.body.style.overflow = "";
+
+  // Restore body scroll
+  document.body.classList.remove("modal-open");
+  document.body.style.top = "";
+  window.scrollTo(0, savedScrollY);
 }
 
 function updateGalleryCounter() {
@@ -349,6 +358,8 @@ function nextImage() {
   }
   scrollGalleryTo(currentImageIndex);
   updateGalleryCounter();
+  // Haptic feedback on supported devices
+  if (navigator.vibrate) navigator.vibrate(10);
 }
 
 function prevImage() {
@@ -364,6 +375,8 @@ function prevImage() {
   }
   scrollGalleryTo(currentImageIndex);
   updateGalleryCounter();
+  // Haptic feedback on supported devices
+  if (navigator.vibrate) navigator.vibrate(10);
 }
 
 // Keyboard navigation for gallery
@@ -379,27 +392,46 @@ document.addEventListener("keydown", function (e) {
 // Touch swipe support for gallery
 (function () {
   let touchStartX = 0;
+  let touchStartY = 0;
   let touchEndX = 0;
   const SWIPE_THRESHOLD = 50; // minimum px for a swipe
 
-  document.addEventListener("touchstart", function (e) {
+  function getGalleryContainer() {
+    return document.getElementById("galleryImages");
+  }
+
+  function isGalleryActive() {
     const modal = document.getElementById("galleryModal");
-    if (modal && modal.classList.contains("active")) {
-      touchStartX = e.changedTouches[0].screenX;
-    }
+    return modal && modal.classList.contains("active");
+  }
+
+  document.addEventListener("touchstart", function (e) {
+    if (!isGalleryActive()) return;
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
+  document.addEventListener("touchmove", function (e) {
+    if (!isGalleryActive()) return;
+    // Prevent page scroll while swiping in gallery
+    const container = getGalleryContainer();
+    if (container && container.contains(e.target)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   document.addEventListener("touchend", function (e) {
-    const modal = document.getElementById("galleryModal");
-    if (modal && modal.classList.contains("active")) {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > SWIPE_THRESHOLD) {
-        if (diff > 0) {
-          nextImage(); // swipe left → next
-        } else {
-          prevImage(); // swipe right → prev
-        }
+    if (!isGalleryActive()) return;
+    touchEndX = e.changedTouches[0].screenX;
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - e.changedTouches[0].screenY;
+
+    // Only trigger if horizontal swipe is dominant
+    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) {
+        nextImage(); // swipe left → next
+      } else {
+        prevImage(); // swipe right → prev
       }
     }
   }, { passive: true });

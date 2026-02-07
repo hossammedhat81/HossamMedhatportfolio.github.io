@@ -1344,6 +1344,8 @@ header {
   gap: 1rem;
   overflow-x: auto;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
   padding: 1rem;
   scrollbar-width: thin;
   scrollbar-color: var(--accent) rgba(255, 255, 255, 0.1);
@@ -1370,6 +1372,7 @@ header {
   border-radius: var(--radius-sm);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
+  scroll-snap-align: center;
 }
 
 /* Gallery Nav Arrows */
@@ -1396,6 +1399,11 @@ header {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.gallery-nav:active {
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateY(-50%) scale(0.92);
+}
+
 .gallery-nav.prev { left: -75px; }
 .gallery-nav.next { right: -75px; }
 
@@ -1412,6 +1420,16 @@ header {
   border-radius: 20px;
   font-size: var(--fs-sm);
   font-weight: var(--fw-bold);
+}
+
+/* Body scroll lock when gallery modal is open */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
 }
 
 /* ---------- Testimonials Section ---------- */
@@ -2105,30 +2123,59 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
     grid-template-columns: 1fr;
   }
 
-  /* Gallery responsive */
+  /* Gallery responsive — mobile */
+  .gallery-images {
+    scrollbar-width: none;
+    gap: 0;
+    padding: 0;
+  }
+
+  .gallery-images::-webkit-scrollbar {
+    display: none;
+  }
+
   .gallery-nav {
     width: 44px;
     height: 44px;
     font-size: 1.2rem;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
-  .gallery-nav.prev { left: 10px; }
-  .gallery-nav.next { right: 10px; }
+  .gallery-nav.prev { left: 8px; }
+  .gallery-nav.next { right: 8px; }
+
+  .gallery-nav:active {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-50%) scale(0.88);
+  }
 
   .gallery-modal .modal-close {
     top: 10px;
     right: 10px;
     width: 44px;
     height: 44px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .gallery-counter {
-    bottom: 10px;
+    bottom: 12px;
+    font-size: var(--fs-xs);
+    padding: 0.3rem 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   .gallery-images img {
     max-height: 60vh;
-    max-width: 90vw;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .timeline {
@@ -2331,16 +2378,12 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
 
   /* Gallery — full width on tiny screens */
   .gallery-modal .modal-content {
-    max-width: 96vw;
-  }
-
-  .gallery-images {
-    padding: 0.5rem;
+    max-width: 100vw;
   }
 
   .gallery-images img {
     max-height: 50vh;
-    max-width: 92vw;
+    max-width: 100vw;
   }
 
   /* Form message positioning */
