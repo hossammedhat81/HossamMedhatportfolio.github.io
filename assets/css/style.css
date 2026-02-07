@@ -1193,6 +1193,20 @@ header {
 .achievement-card .achievement-icon {
   font-size: 2.5rem;
   margin-bottom: var(--space-md);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 199, 96, 0.1);
+  border-radius: 50%;
+  transition: var(--transition-base);
+}
+
+.achievement-card:hover .achievement-icon {
+  background: rgba(255, 199, 96, 0.2);
+  transform: scale(1.1);
 }
 
 .achievement-card h4 {
@@ -1211,6 +1225,13 @@ header {
   font-size: var(--fs-xs);
   opacity: 0.6;
   margin-bottom: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.achievement-card .achievement-date::before {
+  content: "\1F4C5";
 }
 
 .achievement-card .achievement-detail {
