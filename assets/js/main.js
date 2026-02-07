@@ -310,12 +310,17 @@ let savedScrollY = 0;
  * Uses a brief opacity fade for a smooth transition.
  */
 function updateGalleryImage() {
-  const img = document.getElementById("galleryImage");
+  var img = document.getElementById("galleryImage");
   img.style.opacity = "0";
   setTimeout(function () {
+    img.style.display = "block";
     img.src = currentGallery[currentImageIndex];
     img.alt = "Achievement image " + (currentImageIndex + 1);
-    img.style.opacity = "1";
+    img.onload = function () {
+      img.style.opacity = "1";
+    };
+    // Fallback: force visible even if onload doesn't fire (cached images)
+    setTimeout(function () { img.style.opacity = "1"; }, 200);
   }, 150);
   document.getElementById("currentImage").textContent = currentImageIndex + 1;
   document.getElementById("totalImages").textContent = currentGallery.length;
@@ -333,9 +338,16 @@ function openGallery(achievementId) {
 
   // Show the first image immediately (no fade for the initial load)
   var img = document.getElementById("galleryImage");
+  img.style.display = "block";
+  img.style.opacity = "1";
   img.src = currentGallery[0];
   img.alt = "Achievement image 1";
-  img.style.opacity = "1";
+
+  // Handle load errors
+  img.onerror = function () {
+    console.error("Gallery: failed to load", img.src);
+  };
+
   document.getElementById("currentImage").textContent = "1";
   document.getElementById("totalImages").textContent = currentGallery.length;
 

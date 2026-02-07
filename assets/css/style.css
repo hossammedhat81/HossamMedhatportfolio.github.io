@@ -1295,14 +1295,15 @@ header {
 .gallery-modal .modal-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  z-index: 0;
 }
 
 .gallery-modal .modal-content {
   position: relative;
-  z-index: 100000;
+  z-index: 1;
   max-width: 90vw;
   max-height: 90vh;
   display: flex;
@@ -1326,7 +1327,7 @@ header {
   align-items: center;
   justify-content: center;
   transition: var(--transition-base);
-  z-index: 100001;
+  z-index: 2;
 }
 
 .gallery-modal .modal-close:hover {
@@ -1339,17 +1340,22 @@ header {
   align-items: center;
   max-width: 90vw;
   max-height: 80vh;
+  min-width: 200px;
+  min-height: 200px;
 }
 
 .gallery-container img {
+  display: block !important;
+  visibility: visible !important;
   max-width: 100%;
   max-height: 80vh;
   width: auto;
   height: auto;
   object-fit: contain;
   border-radius: var(--radius-sm);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
   transition: opacity 0.15s ease;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Gallery Nav Arrows */
@@ -1369,7 +1375,7 @@ header {
   align-items: center;
   justify-content: center;
   transition: var(--transition-base);
-  z-index: 100001;
+  z-index: 2;
 }
 
 .gallery-nav:hover {
