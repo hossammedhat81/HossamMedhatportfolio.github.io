@@ -1334,45 +1334,22 @@ header {
 }
 
 .gallery-container {
-  position: relative;
-  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 90vw;
   max-height: 80vh;
 }
 
-.gallery-images {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) rgba(255, 255, 255, 0.1);
-}
-
-.gallery-images::-webkit-scrollbar {
-  height: 8px;
-}
-
-.gallery-images::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.gallery-images::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-radius: 10px;
-}
-
-.gallery-images img {
-  max-height: 70vh;
-  max-width: 85vw;
+.gallery-container img {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: var(--radius-sm);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  flex-shrink: 0;
-  scroll-snap-align: center;
+  transition: opacity 0.15s ease;
 }
 
 /* Gallery Nav Arrows */
@@ -1404,13 +1381,13 @@ header {
   transform: translateY(-50%) scale(0.92);
 }
 
-.gallery-nav.prev { left: -75px; }
-.gallery-nav.next { right: -75px; }
+.gallery-nav.prev { left: -80px; }
+.gallery-nav.next { right: -80px; }
 
 /* Gallery Counter */
 .gallery-counter {
   position: absolute;
-  bottom: -45px;
+  bottom: -50px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.15);
@@ -1991,6 +1968,24 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
   }
 }
 
+/* Portrait-mode reinforcement — ensures burger + slide-out nav work in portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  .burger-icon {
+    display: flex !important;
+  }
+
+  .nav-menu {
+    position: fixed;
+    right: -100%;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+}
+
 /* Mobile Nav ≤ 768px */
 @media (max-width: 768px) {
   .burger-icon {
@@ -2131,14 +2126,14 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
   }
 
   /* Gallery responsive — mobile */
-  .gallery-images {
-    scrollbar-width: none;
-    gap: 0;
-    padding: 0;
+  .gallery-container {
+    max-width: 95vw;
   }
 
-  .gallery-images::-webkit-scrollbar {
-    display: none;
+  .gallery-container img {
+    max-height: 70vh;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .gallery-nav {
@@ -2176,13 +2171,6 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-  }
-
-  .gallery-images img {
-    max-height: 60vh;
-    max-width: 100vw;
-    border-radius: 0;
-    box-shadow: none;
   }
 
   .timeline {
@@ -2388,9 +2376,8 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
     max-width: 100vw;
   }
 
-  .gallery-images img {
+  .gallery-container img {
     max-height: 50vh;
-    max-width: 100vw;
   }
 
   /* Form message positioning */

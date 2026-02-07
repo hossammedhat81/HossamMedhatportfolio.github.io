@@ -84,6 +84,15 @@
 
   navOverlay.addEventListener("click", closeNav);
 
+  // Close mobile nav when device orientation changes
+  window.addEventListener("orientationchange", function () {
+    if (isMobileMenuOpen()) closeNav();
+  });
+  // Also handle resize (covers desktop ↔ mobile breakpoint transitions)
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && isMobileMenuOpen()) closeNav();
+  });
+
   // Attach click handlers to ALL nav links (both <ul> links and CTA button)
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
@@ -296,40 +305,45 @@ let currentGallery = [];
 let currentImageIndex = 0;
 let savedScrollY = 0;
 
-function openGallery(achievementId) {
-  const modal = document.getElementById("galleryModal");
-  const container = document.getElementById("galleryImages");
+/**
+ * Show a single image in the gallery and update the counter.
+ * Uses a brief opacity fade for a smooth transition.
+ */
+function updateGalleryImage() {
+  const img = document.getElementById("galleryImage");
+  img.style.opacity = "0";
+  setTimeout(function () {
+    img.src = currentGallery[currentImageIndex];
+    img.alt = "Achievement image " + (currentImageIndex + 1);
+    img.style.opacity = "1";
+  }, 150);
+  document.getElementById("currentImage").textContent = currentImageIndex + 1;
+  document.getElementById("totalImages").textContent = currentGallery.length;
+}
 
+function openGallery(achievementId) {
   currentGallery = galleryData[achievementId] || [];
   currentImageIndex = 0;
-
-  container.innerHTML = "";
-
-  currentGallery.forEach((src, i) => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Achievement photo " + (i + 1);
-    img.loading = (i === 0) ? "eager" : "lazy";
-    container.appendChild(img);
-  });
-
-  document.getElementById("totalImages").textContent = currentGallery.length;
-  updateGalleryCounter();
-
-  // Scroll container to start position
-  container.scrollLeft = 0;
+  if (currentGallery.length === 0) return;
 
   // Lock body scroll — save position, apply class
   savedScrollY = window.scrollY;
   document.body.style.top = "-" + savedScrollY + "px";
   document.body.classList.add("modal-open");
 
-  modal.classList.add("active");
+  // Show the first image immediately (no fade for the initial load)
+  var img = document.getElementById("galleryImage");
+  img.src = currentGallery[0];
+  img.alt = "Achievement image 1";
+  img.style.opacity = "1";
+  document.getElementById("currentImage").textContent = "1";
+  document.getElementById("totalImages").textContent = currentGallery.length;
+
+  document.getElementById("galleryModal").classList.add("active");
 }
 
 function closeGallery() {
-  const modal = document.getElementById("galleryModal");
-  modal.classList.remove("active");
+  document.getElementById("galleryModal").classList.remove("active");
 
   // Restore body scroll
   document.body.classList.remove("modal-open");
@@ -337,70 +351,23 @@ function closeGallery() {
   window.scrollTo(0, savedScrollY);
 }
 
-function updateGalleryCounter() {
-  document.getElementById("currentImage").textContent = currentImageIndex + 1;
-}
-
-/**
- * Scroll the gallery container so the image at `index` is centered.
- * Uses container.scrollTo for reliability instead of scrollIntoView,
- * which can scroll the whole page on mobile.
- */
-function scrollGalleryTo(index) {
-  const container = document.getElementById("galleryImages");
-  const images = container.querySelectorAll("img");
-  if (!images[index]) return;
-
-  const img = images[index];
-  // Calculate the scroll position to center the image in the container
-  const containerWidth = container.clientWidth;
-  const imgLeft = img.offsetLeft;
-  const imgWidth = img.offsetWidth;
-  const scrollTarget = imgLeft - (containerWidth / 2) + (imgWidth / 2);
-
-  container.scrollTo({
-    left: Math.max(0, scrollTarget),
-    behavior: "smooth"
-  });
-}
-
 function nextImage() {
-  const container = document.getElementById("galleryImages");
-  const images = container.querySelectorAll("img");
-  if (images.length === 0) return;
-
-  if (currentImageIndex < images.length - 1) {
-    currentImageIndex++;
-  } else {
-    // Wrap around to first image
-    currentImageIndex = 0;
-  }
-  scrollGalleryTo(currentImageIndex);
-  updateGalleryCounter();
-  // Haptic feedback on supported devices
+  if (currentGallery.length === 0) return;
+  currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+  updateGalleryImage();
   if (navigator.vibrate) navigator.vibrate(10);
 }
 
 function prevImage() {
-  const container = document.getElementById("galleryImages");
-  const images = container.querySelectorAll("img");
-  if (images.length === 0) return;
-
-  if (currentImageIndex > 0) {
-    currentImageIndex--;
-  } else {
-    // Wrap around to last image
-    currentImageIndex = images.length - 1;
-  }
-  scrollGalleryTo(currentImageIndex);
-  updateGalleryCounter();
-  // Haptic feedback on supported devices
+  if (currentGallery.length === 0) return;
+  currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+  updateGalleryImage();
   if (navigator.vibrate) navigator.vibrate(10);
 }
 
 // Keyboard navigation for gallery
 document.addEventListener("keydown", function (e) {
-  const modal = document.getElementById("galleryModal");
+  var modal = document.getElementById("galleryModal");
   if (modal && modal.classList.contains("active")) {
     if (e.key === "Escape") closeGallery();
     if (e.key === "ArrowRight") nextImage();
@@ -410,17 +377,12 @@ document.addEventListener("keydown", function (e) {
 
 // Touch swipe support for gallery
 (function () {
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchEndX = 0;
-  const SWIPE_THRESHOLD = 50; // minimum px for a swipe
-
-  function getGalleryContainer() {
-    return document.getElementById("galleryImages");
-  }
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var SWIPE_THRESHOLD = 50;
 
   function isGalleryActive() {
-    const modal = document.getElementById("galleryModal");
+    var modal = document.getElementById("galleryModal");
     return modal && modal.classList.contains("active");
   }
 
@@ -430,27 +392,16 @@ document.addEventListener("keydown", function (e) {
     touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
-  document.addEventListener("touchmove", function (e) {
-    if (!isGalleryActive()) return;
-    // Prevent page scroll while swiping in gallery
-    const container = getGalleryContainer();
-    if (container && container.contains(e.target)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-
   document.addEventListener("touchend", function (e) {
     if (!isGalleryActive()) return;
-    touchEndX = e.changedTouches[0].screenX;
-    const diffX = touchStartX - touchEndX;
-    const diffY = touchStartY - e.changedTouches[0].screenY;
+    var diffX = touchStartX - e.changedTouches[0].screenX;
+    var diffY = touchStartY - e.changedTouches[0].screenY;
 
-    // Only trigger if horizontal swipe is dominant
     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > Math.abs(diffY)) {
       if (diffX > 0) {
-        nextImage(); // swipe left → next
+        nextImage();
       } else {
-        prevImage(); // swipe right → prev
+        prevImage();
       }
     }
   }, { passive: true });
