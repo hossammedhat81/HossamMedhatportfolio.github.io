@@ -15,6 +15,7 @@
   const navMenu = document.getElementById("navMenu");
   const navOverlay = document.getElementById("navOverlay");
   const navLinks = document.querySelectorAll(".nav-menu ul a");
+  const navCta = document.querySelector(".nav-cta");
   const statElements = document.querySelectorAll(".hero-stat");
   const contactForm = document.getElementById("contactForm");
   const successMsg = document.getElementById("successMsg");
@@ -44,10 +45,35 @@
   });
 
   /* ========== Mobile Navigation ========== */
+  function isMobileMenuOpen() {
+    return navMenu.classList.contains("active");
+  }
+
   function closeNav() {
     burgerIcon.classList.remove("active");
     navMenu.classList.remove("active");
     navOverlay.classList.remove("active");
+  }
+
+  /**
+   * Navigate to a section by its hash (e.g. "#about").
+   * On mobile: close menu first, then scroll after a brief delay
+   * so the layout settles before computing scroll position.
+   */
+  function navigateToSection(hash) {
+    const targetId = hash.replace("#", "");
+    const targetEl = document.getElementById(targetId);
+    if (!targetEl) return;
+
+    if (isMobileMenuOpen()) {
+      closeNav();
+      // Wait for menu close transition to finish, then scroll
+      setTimeout(() => {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 350);
+    } else {
+      targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   burgerIcon.addEventListener("click", () => {
@@ -58,9 +84,30 @@
 
   navOverlay.addEventListener("click", closeNav);
 
+  // Attach click handlers to ALL nav links (both <ul> links and CTA button)
   navLinks.forEach((link) => {
-    link.addEventListener("click", closeNav);
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      const hash = this.getAttribute("href");
+      navigateToSection(hash);
+      // Update URL hash without jumping
+      if (history.pushState) {
+        history.pushState(null, null, hash);
+      }
+    });
   });
+
+  // Also handle the "Contact Me" CTA button in the nav
+  if (navCta) {
+    navCta.addEventListener("click", function (e) {
+      e.preventDefault();
+      const hash = this.getAttribute("href");
+      navigateToSection(hash);
+      if (history.pushState) {
+        history.pushState(null, null, hash);
+      }
+    });
+  }
 
   /* ========== Active Nav Link on Scroll ========== */
   function highlightActiveSection() {
@@ -242,12 +289,15 @@ function openGallery(achievementId) {
     const img = document.createElement("img");
     img.src = src;
     img.alt = "Achievement photo " + (i + 1);
-    img.loading = "lazy";
+    img.loading = (i === 0) ? "eager" : "lazy";
     container.appendChild(img);
   });
 
   document.getElementById("totalImages").textContent = currentGallery.length;
-  document.getElementById("currentImage").textContent = "1";
+  updateGalleryCounter();
+
+  // Scroll container to start position
+  container.scrollLeft = 0;
 
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
@@ -259,24 +309,61 @@ function closeGallery() {
   document.body.style.overflow = "";
 }
 
+function updateGalleryCounter() {
+  document.getElementById("currentImage").textContent = currentImageIndex + 1;
+}
+
+/**
+ * Scroll the gallery container so the image at `index` is centered.
+ * Uses container.scrollTo for reliability instead of scrollIntoView,
+ * which can scroll the whole page on mobile.
+ */
+function scrollGalleryTo(index) {
+  const container = document.getElementById("galleryImages");
+  const images = container.querySelectorAll("img");
+  if (!images[index]) return;
+
+  const img = images[index];
+  // Calculate the scroll position to center the image in the container
+  const containerWidth = container.clientWidth;
+  const imgLeft = img.offsetLeft;
+  const imgWidth = img.offsetWidth;
+  const scrollTarget = imgLeft - (containerWidth / 2) + (imgWidth / 2);
+
+  container.scrollTo({
+    left: Math.max(0, scrollTarget),
+    behavior: "smooth"
+  });
+}
+
 function nextImage() {
   const container = document.getElementById("galleryImages");
   const images = container.querySelectorAll("img");
+  if (images.length === 0) return;
+
   if (currentImageIndex < images.length - 1) {
     currentImageIndex++;
-    images[currentImageIndex].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    document.getElementById("currentImage").textContent = currentImageIndex + 1;
+  } else {
+    // Wrap around to first image
+    currentImageIndex = 0;
   }
+  scrollGalleryTo(currentImageIndex);
+  updateGalleryCounter();
 }
 
 function prevImage() {
   const container = document.getElementById("galleryImages");
   const images = container.querySelectorAll("img");
+  if (images.length === 0) return;
+
   if (currentImageIndex > 0) {
     currentImageIndex--;
-    images[currentImageIndex].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    document.getElementById("currentImage").textContent = currentImageIndex + 1;
+  } else {
+    // Wrap around to last image
+    currentImageIndex = images.length - 1;
   }
+  scrollGalleryTo(currentImageIndex);
+  updateGalleryCounter();
 }
 
 // Keyboard navigation for gallery
@@ -288,3 +375,32 @@ document.addEventListener("keydown", function (e) {
     if (e.key === "ArrowLeft") prevImage();
   }
 });
+
+// Touch swipe support for gallery
+(function () {
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const SWIPE_THRESHOLD = 50; // minimum px for a swipe
+
+  document.addEventListener("touchstart", function (e) {
+    const modal = document.getElementById("galleryModal");
+    if (modal && modal.classList.contains("active")) {
+      touchStartX = e.changedTouches[0].screenX;
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchend", function (e) {
+    const modal = document.getElementById("galleryModal");
+    if (modal && modal.classList.contains("active")) {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > SWIPE_THRESHOLD) {
+        if (diff > 0) {
+          nextImage(); // swipe left → next
+        } else {
+          prevImage(); // swipe right → prev
+        }
+      }
+    }
+  }, { passive: true });
+})();
