@@ -23,10 +23,14 @@
   --card-shadow: rgba(0, 0, 0, 0.3);
   --overlay: rgba(7, 28, 36, 0.85);
   --section-alt-bg: #0a2630;
+  --logo-h-color: #ffffff;
+  --logo-m-color: #ffd700;
 
   /* Typography */
   --font-primary: "Satoshi", sans-serif;
   --font-display: "Protest Guerrilla", sans-serif;
+  --font-logo: "Impact", "Arial Black", "Bebas Neue", "Montserrat", sans-serif;
+  --fs-logo: clamp(2rem, 4vw, 2.8rem);
   --fs-base: 16px;
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -276,15 +280,23 @@ header {
 }
 
 .header-container .logo a {
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-logo);
   font-weight: var(--fw-black);
-  color: var(--accent);
-  letter-spacing: 2px;
-  font-family: var(--font-display);
+  letter-spacing: 1px;
+  font-family: var(--font-logo);
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
 
-.header-container .logo a span {
-  color: var(--text-color);
+.header-container .logo a .logo-h {
+  color: var(--logo-h-color);
+}
+
+.header-container .logo a .logo-m {
+  color: var(--logo-m-color);
 }
 
 /* Burger Icon */
