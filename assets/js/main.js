@@ -196,43 +196,70 @@
 
   /* ========== Contact Form — EmailJS Integration ========== */
   if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
+    contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      console.log("Form submitted");
 
       const submitBtn = document.getElementById("submitBtn");
       const btnText = document.getElementById("btnText");
+
+      // Collect form data
+      const templateParams = {
+        from_name: contactForm.from_name.value.trim(),
+        from_email: contactForm.from_email.value.trim(),
+        subject: contactForm.subject.value.trim(),
+        message: contactForm.message.value.trim()
+      };
+
+      console.log("Form data:", templateParams);
+
+      // Validate
+      if (!templateParams.from_name || !templateParams.from_email || !templateParams.subject || !templateParams.message) {
+        console.error("Validation failed: empty fields");
+        showFormMessage(errorMsg);
+        return;
+      }
 
       // Disable button and show loading state
       submitBtn.disabled = true;
       btnText.textContent = "Sending…";
 
-      // Collect form data (field names must match your EmailJS template variables)
-      const templateParams = {
-        from_name: contactForm.from_name.value,
-        from_email: contactForm.from_email.value,
-        subject: contactForm.subject.value,
-        message: contactForm.message.value
-      };
+      console.log("Calling emailjs.send…");
 
       emailjs
         .send("service_o98wi3i", "template_2te61aq", templateParams)
         .then(
-          function () {
-            // Success — real email was sent
+          function (response) {
+            console.log("EmailJS SUCCESS:", response.status, response.text);
             showFormMessage(successMsg);
             contactForm.reset();
           },
           function (error) {
-            // Failure — show error message
-            console.error("EmailJS error:", error);
+            console.error("EmailJS FAILED:", error);
+            console.error("Status:", error.status, "Text:", error.text);
+
+            // Update error message with details
+            var span = errorMsg.querySelector("span");
+            if (span) {
+              if (error.status === 400) span.textContent = "Bad request — check template variables.";
+              else if (error.status === 401) span.textContent = "Unauthorized — check Public Key.";
+              else if (error.status === 404) span.textContent = "Service or template not found.";
+              else if (error.status === 412) span.textContent = "Template variable mismatch.";
+              else if (error.status === 422) span.textContent = "Invalid email format.";
+              else span.textContent = "Something went wrong (status " + error.status + "). Try again.";
+            }
             showFormMessage(errorMsg);
           }
         )
         .finally(function () {
           submitBtn.disabled = false;
           btnText.textContent = "Send Message";
+          console.log("Request complete, button re-enabled");
         });
     });
+  } else {
+    console.error("contactForm element not found in DOM");
   }
 
   function showFormMessage(element) {
