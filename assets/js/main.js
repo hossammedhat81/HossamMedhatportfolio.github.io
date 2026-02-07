@@ -214,9 +214,8 @@
         message: contactForm.message.value
       };
 
-      // ⚠️  Replace these two IDs with your actual EmailJS Service ID and Template ID
       emailjs
-        .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        .send("service_o98wi3i", "template_2te61aq", templateParams)
         .then(
           function () {
             // Success — real email was sent
