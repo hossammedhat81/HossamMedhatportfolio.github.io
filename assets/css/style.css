@@ -278,13 +278,13 @@ header {
 .header-container .logo a {
   font-size: var(--fs-2xl);
   font-weight: var(--fw-black);
-  color: var(--accent);
+  color: #FFD700;
   letter-spacing: 2px;
   font-family: var(--font-display);
 }
 
 .header-container .logo a span {
-  color: var(--text-color);
+  color: #FFFFFF;
 }
 
 /* Burger Icon */
