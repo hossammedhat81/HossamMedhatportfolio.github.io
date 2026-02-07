@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="512" height="512" rx="80" ry="80" fill="#071c24"/>
+  <text x="256" y="340" text-anchor="middle" font-family="'Protest Guerrilla', 'Impact', 'Arial Black', sans-serif" font-size="300" font-weight="900" letter-spacing="8">
+    <tspan fill="#ffc760">H</tspan><tspan fill="#cff8ff">M</tspan>
+  </text>
+</svg>
