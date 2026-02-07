@@ -185,26 +185,45 @@
     }
   }
 
-  /* ========== Contact Form ========== */
+  /* ========== Contact Form — EmailJS Integration ========== */
   if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Collect form data
-      const formData = new FormData(contactForm);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
+      const submitBtn = document.getElementById("submitBtn");
+      const btnText = document.getElementById("btnText");
 
-      // For now, show success message (integrate with backend/email service later)
-      showFormMessage(successMsg);
-      contactForm.reset();
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      btnText.textContent = "Sending…";
 
-      // To integrate with a real service like EmailJS, Formspree, or custom backend:
-      // fetch('YOUR_ENDPOINT', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      //   .then(res => { if (res.ok) showFormMessage(successMsg); else showFormMessage(errorMsg); })
-      //   .catch(() => showFormMessage(errorMsg));
+      // Collect form data (field names must match your EmailJS template variables)
+      const templateParams = {
+        from_name: contactForm.from_name.value,
+        from_email: contactForm.from_email.value,
+        subject: contactForm.subject.value,
+        message: contactForm.message.value
+      };
+
+      // ⚠️  Replace these two IDs with your actual EmailJS Service ID and Template ID
+      emailjs
+        .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        .then(
+          function () {
+            // Success — real email was sent
+            showFormMessage(successMsg);
+            contactForm.reset();
+          },
+          function (error) {
+            // Failure — show error message
+            console.error("EmailJS error:", error);
+            showFormMessage(errorMsg);
+          }
+        )
+        .finally(function () {
+          submitBtn.disabled = false;
+          btnText.textContent = "Send Message";
+        });
     });
   }
 
@@ -212,7 +231,7 @@
     element.classList.add("show");
     setTimeout(() => {
       element.classList.remove("show");
-    }, 3000);
+    }, 5000);
   }
 
   /* ========== Scroll Event Listener ========== */

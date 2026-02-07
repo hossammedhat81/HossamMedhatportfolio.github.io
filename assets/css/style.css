@@ -1684,6 +1684,13 @@ body.modal-open {
   align-self: flex-start;
 }
 
+.contact-form .btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
 /* Form Messages */
 .form-message {
   position: fixed;
