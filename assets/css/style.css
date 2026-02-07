@@ -1190,15 +1190,25 @@ header {
   box-shadow: 0 8px 25px var(--card-shadow);
 }
 
+/* Achievement Header (icon + thumbnails row) */
+.achievement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: var(--space-md);
+  width: 100%;
+}
+
 .achievement-card .achievement-icon {
   font-size: 2.5rem;
-  margin-bottom: var(--space-md);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 72px;
   height: 72px;
+  min-width: 72px;
   background: rgba(255, 199, 96, 0.1);
   border-radius: 50%;
   transition: var(--transition-base);
@@ -1207,6 +1217,63 @@ header {
 .achievement-card:hover .achievement-icon {
   background: rgba(255, 199, 96, 0.2);
   transform: scale(1.1);
+}
+
+/* Photo Thumbnails */
+.achievement-thumbnails {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.achievement-thumbnails:hover {
+  transform: scale(1.03);
+}
+
+.thumbnail {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid rgba(255, 199, 96, 0.25);
+  transition: var(--transition-base);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.thumbnail:hover {
+  border-color: var(--accent);
+  transform: scale(1.12);
+  z-index: 2;
+}
+
+.thumbnail-more {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 199, 96, 0.85);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-sm);
+  color: var(--bg-color);
+  transition: var(--transition-base);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.thumbnail-more:hover {
+  background: var(--accent);
+  transform: scale(1.12);
+}
+
+.achievement-content {
+  width: 100%;
 }
 
 .achievement-card h4 {
@@ -2015,6 +2082,30 @@ a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
 
 /* Mobile Nav ≤ 768px */
 @media (max-width: 768px) {
+  .achievement-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .achievement-card .achievement-icon {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    font-size: 2rem;
+  }
+
+  .achievement-thumbnails {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .thumbnail,
+  .thumbnail-more {
+    width: 46px;
+    height: 46px;
+  }
+
   .burger-icon {
     display: block;
     min-width: 44px;
