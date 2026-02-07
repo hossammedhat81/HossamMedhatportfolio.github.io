@@ -1869,6 +1869,26 @@ footer {
 
 /* ---------- Responsive Design ---------- */
 
+/* ---- Touch & mobile global helpers ---- */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover-only transforms on touch devices to avoid sticky states */
+  .project-card:hover,
+  .service-card:hover,
+  .achievement-card:hover,
+  .highlight-card:hover,
+  .skill-category:hover,
+  .timeline-content:hover,
+  .testimonial-card:hover {
+    transform: none;
+  }
+}
+
+/* Ensure minimum touch-target size globally */
+a, button, .btn, .nav-cta, .btn-view-gallery, .scroll-top-btn,
+.gallery-nav, .modal-close, .burger-icon, .contact-social a, .footer-social a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Large screens */
 @media (min-width: 1440px) {
   :root {
@@ -1882,7 +1902,7 @@ footer {
   }
 }
 
-/* Tablet */
+/* Tablet ≤ 1023px */
 @media (max-width: 1023px) {
   .hero-container {
     flex-direction: column;
@@ -1946,10 +1966,15 @@ footer {
   }
 }
 
-/* Mobile Nav */
+/* Mobile Nav ≤ 768px */
 @media (max-width: 768px) {
   .burger-icon {
     display: block;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-menu {
@@ -1959,6 +1984,7 @@ footer {
     width: 70%;
     max-width: 320px;
     height: 100vh;
+    height: 100dvh;          /* dynamic viewport height — avoids iOS URL-bar gap */
     background: var(--box-bg);
     flex-direction: column;
     justify-content: center;
@@ -1967,6 +1993,8 @@ footer {
     transition: var(--transition-base);
     z-index: 10000;
     box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .nav-menu.active {
@@ -1980,6 +2008,17 @@ footer {
 
   .nav-menu ul a {
     font-size: var(--fs-xl);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-cta {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   .nav-overlay {
@@ -2001,6 +2040,10 @@ footer {
     font-size: clamp(2.5rem, 8vw, 5rem);
   }
 
+  .hero-tagline {
+    font-size: var(--fs-md);
+  }
+
   .hero-photo-wrapper {
     width: 320px;
     height: 320px;
@@ -2011,8 +2054,22 @@ footer {
     gap: var(--space-lg);
   }
 
+  .hero-buttons {
+    gap: var(--space-sm);
+  }
+
+  .hero-buttons .btn {
+    min-height: 44px;
+    padding: 0.6em 1.4em;
+    font-size: var(--fs-sm);
+  }
+
   .section-title {
     font-size: var(--fs-3xl);
+  }
+
+  .section-subtitle {
+    font-size: var(--fs-md);
   }
 
   section {
@@ -2021,6 +2078,11 @@ footer {
 
   .about-highlights {
     grid-template-columns: 1fr;
+  }
+
+  .about-text p {
+    font-size: var(--fs-md);
+    text-align: left;
   }
 
   .skills-grid {
@@ -2039,21 +2101,34 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
   /* Gallery responsive */
+  .gallery-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+
   .gallery-nav.prev { left: 10px; }
   .gallery-nav.next { right: 10px; }
 
   .gallery-modal .modal-close {
     top: 10px;
     right: 10px;
+    width: 44px;
+    height: 44px;
   }
 
   .gallery-counter {
     bottom: 10px;
   }
 
-  .testimonials-grid {
-    grid-template-columns: 1fr;
+  .gallery-images img {
+    max-height: 60vh;
+    max-width: 90vw;
   }
 
   .timeline {
@@ -2064,30 +2139,123 @@ footer {
     flex-direction: column;
   }
 
+  .timeline-content {
+    padding: var(--space-lg);
+  }
+
+  .contact-container {
+    gap: var(--space-xl);
+  }
+
   .contact-form-wrapper {
     padding: var(--space-xl);
   }
-}
 
-@media (max-width: 450px) {
-  .hero-photo-wrapper {
-    width: 290px;
-    height: 290px;
+  .contact-form-wrapper h3 {
+    font-size: var(--fs-2xl);
   }
 
-  .hero-photo-badge {
-    bottom: 15px;
-    font-size: var(--fs-xs);
-    padding: 0.4em 1em;
+  /* Ensure form inputs are large enough to tap */
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px;   /* prevents iOS auto-zoom on focus */
+    min-height: 44px;
+    padding: 12px 0;
+  }
+
+  .contact-form .btn {
+    min-height: 48px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer stacking */
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-lg);
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-social a {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Scroll-to-top adjustments */
+  .scroll-top-btn {
+    width: 44px;
+    height: 44px;
+    right: 4%;
+    bottom: 4%;
+  }
+
+  /* Contact social icons touch targets */
+  .contact-social a {
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  /* Button gallery touch target */
+  .btn-view-gallery {
+    min-height: 44px;
+  }
+
+  /* Project links touch targets */
+  .project-links a {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5em 0.8em;
+  }
+}
+
+/* Small phones ≤ 480px */
+@media (max-width: 480px) {
+  .hero-photo-wrapper {
+    width: 280px;
+    height: 280px;
   }
 
   .hero-title {
     font-size: clamp(2rem, 10vw, 3.5rem);
   }
 
-  .footer-container {
+  .hero-tagline {
+    font-size: var(--fs-sm);
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
     justify-content: center;
-    text-align: center;
+  }
+
+  .hero-stat h3 {
+    font-size: var(--fs-2xl);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  .section-subtitle {
+    font-size: var(--fs-sm);
+  }
+
+  .hero-photo-badge {
+    bottom: 15px;
+    font-size: var(--fs-xs);
+    padding: 0.4em 1em;
   }
 
   .education-card {
@@ -2097,5 +2265,181 @@ footer {
   .education-info .edu-meta {
     flex-direction: column;
     gap: var(--space-sm);
+  }
+
+  .education-info h3 {
+    font-size: var(--fs-lg);
+  }
+
+  .education-info h4 {
+    font-size: var(--fs-md);
+  }
+
+  .timeline-content ul {
+    padding-left: var(--space-md);
+  }
+
+  .service-card {
+    padding: var(--space-lg);
+  }
+
+  .service-card .service-number {
+    font-size: var(--fs-3xl);
+  }
+
+  .project-card-header {
+    padding: var(--space-lg);
+    padding-bottom: 0;
+  }
+
+  .project-card-body {
+    padding: 0 var(--space-lg);
+  }
+
+  .project-card-footer {
+    padding: var(--space-md) var(--space-lg);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  .project-links a {
+    margin-left: 0;
+  }
+
+  .achievement-card {
+    padding: var(--space-lg);
+  }
+
+  .contact-form-wrapper {
+    padding: var(--space-lg);
+  }
+
+  .contact-form-wrapper h3 {
+    font-size: var(--fs-xl);
+  }
+
+  .contact-info-card {
+    padding: var(--space-md);
+  }
+
+  /* Gallery — full width on tiny screens */
+  .gallery-modal .modal-content {
+    max-width: 96vw;
+  }
+
+  .gallery-images {
+    padding: 0.5rem;
+  }
+
+  .gallery-images img {
+    max-height: 50vh;
+    max-width: 92vw;
+  }
+
+  /* Form message positioning */
+  .form-message.show {
+    left: 3%;
+    right: 3%;
+    font-size: var(--fs-sm);
+  }
+}
+
+/* Extra small phones ≤ 375px */
+@media (max-width: 375px) {
+  :root {
+    --container-wide: 94%;
+  }
+
+  .hero-photo-wrapper {
+    width: 240px;
+    height: 240px;
+  }
+
+  .hero-label {
+    font-size: var(--fs-xs);
+    padding: 0.3em 0.8em;
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
+  }
+
+  .hero-buttons .btn {
+    font-size: var(--fs-xs);
+    padding: 0.7em 1em;
+  }
+
+  .hero-stat h3 {
+    font-size: var(--fs-xl);
+  }
+
+  .hero-stat p {
+    font-size: var(--fs-xs);
+  }
+
+  .skill-tag {
+    font-size: var(--fs-xs);
+    padding: 0.3em 0.7em;
+  }
+
+  .timeline {
+    padding-left: var(--space-lg);
+  }
+
+  .timeline-item::before {
+    left: calc(-1 * var(--space-lg) - 6px);
+    width: 12px;
+    height: 12px;
+  }
+
+  .timeline-header h3 {
+    font-size: var(--fs-md);
+  }
+
+  .timeline-header .company {
+    font-size: var(--fs-sm);
+  }
+
+  .timeline-content ul li {
+    font-size: var(--fs-xs);
+  }
+
+  .testimonial-card.linkedin-testimonial .view-original {
+    font-size: var(--fs-sm);
+    padding: 0.6rem 1rem;
+  }
+
+  .availability-badge {
+    font-size: var(--fs-xs);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .footer-container .copyright p {
+    font-size: var(--fs-xs);
+  }
+}
+
+/* Minimum 320px viewport protection */
+@media (max-width: 320px) {
+  .hero-photo-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .hero-photo-badge {
+    font-size: 0.65rem;
+    padding: 0.3em 0.6em;
+    bottom: 10px;
+  }
+
+  .nav-menu {
+    width: 85%;
   }
 }
