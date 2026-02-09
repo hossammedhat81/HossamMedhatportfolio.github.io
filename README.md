@@ -4,7 +4,7 @@
 
 > Transforming Data into Insights | Empowering Freelancers to Succeed
 
-Live: [https://hossammedhatportfolio.github.io](https://hossammedhatportfolio.github.io)
+Live: [https://hossammedhatportfolio.github.io](https://hossammedhat81.github.io/HM_HossamMedhat/)
 
 ---
 
@@ -136,3 +136,4 @@ The contact form currently shows a success message on submit. To connect to a re
 ## License
 
 © 2026 Hossam Medhat. All rights reserved.
+
